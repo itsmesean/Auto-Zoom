@@ -1,5 +1,5 @@
 #container {
-  background-color: rgb(122, 11, 26);
+  background-color: #b5cef7;
   border: 2px solid black;
   height: 300px;
   width: 225px;
@@ -22,9 +22,28 @@ label {
 #form {
   display: flex;
   flex-direction: column;
+  padding: 20px 20px;
 }
 
 #submit-button {
   margin: 10px auto;
-  width: 100px;
+  background-color: #5e97f2;
+  border: 1px solid;
+  border-color: black;
+  width: fit-content;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#submit-button:hover {
+  background-color: white;
+  color: #5e97f2;
+}
+
+h1{
+  text-align: center;
 }
