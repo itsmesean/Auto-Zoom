@@ -1,31 +1,25 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-<head>
-  <style>
-    button {
-      height: 30px;
-      width: 30px;
-      outline: none;
-    }
-
-  </style>
-  <link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-  <h1>AUTO Zoom</h1>
-  <div id="container">
-    <form action="" id="form">
-      <input type="datetime-local" id="meeting-time" name="meeting-time" value="2017-06-01T08:30" >
-      <input type="text" id="url-input" placeholder="Meeting Link">
-      <button type="submit" id="submit-button" >Set Meeting</button>
-
-
-    </form>
-  </div>
-  <!-- <script src="popup.js"></script> -->
-  <script src="popup.js"></script>
-</body>
-
+  <body>
+    <h1>AUTO Zoom</h1>
+    <div id="container">
+      <form action="" id="form">
+        <input
+          type="datetime-local"
+          id="meeting-time"
+          name="meeting-time"
+          value=""
+        />
+        <input type="text" id="url-input" placeholder="Meeting Link" />
+        <div id=url-alert-div></div>
+        <button type="submit" id="submit-button">Set Meeting</button>
+      </form>
+      <ul id="meetings-list"></ul>
+    </div>
+    <script src="popup.js"></script>
+  </body>
 </html>
