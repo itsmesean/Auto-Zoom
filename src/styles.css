@@ -1,12 +1,11 @@
+html {
+  background-color: cornflowerblue;
+}
 #container {
   background-color: #b5cef7;
   border: 2px solid black;
-  height: 300px;
-  width: 225px;
-}
-
-html {
-  background-color: cornflowerblue;
+  height: 425px;
+  width: 250px;
 }
 
 label {
@@ -58,10 +57,40 @@ h1 {
 }
 #url-alert {
   margin: 0 auto;
-  animation: blinker .2s linear 3;
+  animation: blinker 0.2s linear 3;
 }
 
+#meetings-list {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  width: 87%;
+  height: 55%;
+  border: 2px solid black;
+  background-color: rgb(204, 205, 255);
+  margin: 0 auto;
+  padding: 5px;
+}
 
+.li-div {
+  display: flex;
+}
+
+.meeting-li {
+  width: 89%;
+}
+
+#remove-li {
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  background-color: #5e97f2;
+  color: white;
+}
+#remove-li:hover {
+  background-color: white;
+  color: #5e97f2;
+}
 
 @keyframes blinker {
   50% {
