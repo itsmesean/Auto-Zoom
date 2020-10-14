@@ -21,8 +21,27 @@ const submitMeeting = function () {
       .getElementById("url-alert-div")
       .insertAdjacentHTML(
         "afterbegin",
-        `<p id="url-alert">Please enter a valid Zoom link</p>`
+        `<p class="url-alert">Please enter a valid Zoom link</p>`
       );
+  }
+};
+
+const populate = function (items) {
+  document.getElementById("meetings-list").innerHTML = "";
+  for (meeting in items) {
+    let _id = meeting;
+    let date = new Date(meeting);
+    let element = document.getElementById("meetings-list");
+
+    element.insertAdjacentHTML(
+      "afterbegin",
+      `<div id=${_id} class=" text-list__textbox">
+      <span>${formatDate(date)}</span>
+      <a target="_blank" href="${items[meeting]}">
+      ${items[meeting].slice(8, -1)}</a>
+      <input type="image" id='remove-li' class="remove-li" src="../images/LogoMakr-1epUwy.png" />
+      </div>`
+    );
   }
 };
 
@@ -31,36 +50,18 @@ const getMeetings = function () {
     populate(response);
   });
 };
+/**
+ * Function calls
+ */
 
-const populate = function (items) {
-  document.getElementById("meetings-list").innerHTML = "";
+// Set placeholder to current date/time
+toLocaleISOString();
 
-  for (meeting in items) {
-    let date = new Date(meeting);
-    let element = document.getElementById("meetings-list");
-
-    element.insertAdjacentHTML(
-      "afterbegin",
-      `<div class="li-div" id=${meeting}>
-        <li class="meeting-li" >
-          ${formatDate(date)}</br>${items[meeting]}
-        </li>
-        <button id='remove-li'>X</button>
-      </div>`
-    );
-  }
-};
+getMeetings();
 
 /**
  * Event Listeners
  */
-
-document.addEventListener("click", function (e) {
-  if (e.target && e.target.id == "submit-button") {
-    e.preventDefault();
-    submitMeeting();
-  }
-});
 
 document.addEventListener("click", function (e) {
   if (e.target && e.target.id == "remove-li") {
@@ -74,11 +75,35 @@ document.addEventListener("click", function (e) {
   }
 });
 
-chrome.runtime.onStartup.addListener(getMeetings());
+document.addEventListener("click", function (e) {
+  if (e.target && e.target.id == "submit-button") {
+    e.preventDefault();
+    submitMeeting();
+  }
+});
 
 /**
  * Utils
  */
+
+function toLocaleISOString(date = new Date()) {
+  function pad(n) {
+    return ("0" + n).substr(-2);
+  }
+
+  var day = [
+      date.getFullYear(),
+      pad(date.getMonth() + 1),
+      pad(date.getDate()),
+    ].join("-"),
+    time = [date.getHours(), date.getMinutes()].map(pad).join(":");
+  var o = date.getTimezoneOffset(),
+    h = Math.floor(Math.abs(o) / 60),
+    m = Math.abs(o) % 60,
+    o = o == 0 ? "Z" : (o < 0 ? "+" : "-") + pad(h) + ":" + pad(m);
+  let dtt = document.getElementById("meeting-time");
+  dtt.value = day + "T" + time;
+}
 
 const formatDate = function (date) {
   const timeOptions = {
@@ -88,8 +113,7 @@ const formatDate = function (date) {
   };
 
   const dateOptions = {
-    weekday: "long",
-    month: "long",
+    month: "short",
     day: "numeric",
   };
 
