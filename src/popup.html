@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <header class="header">
+      <h1>AUTO ZOOM</h1>
+
+      <div class="header-grid">
+        <div id="gAuth">
+          <button class="button" id="gButton">GOOGLE</button>
+          <p>Sync your calendar</p>
+        </div>
+        <div id="toggle">
+          <button class="button" id="gButton">ON/OFF</button>
+          <p>Toggle all auto zooms</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="tab-panel">
+      <div class="tab-panel__buttons">
+        <button class="button">
+          <span>Add new</span>
+        </button>
+        <button class="button">
+          <span>Full list</span>
+        </button>
+        <button class="button">
+          <span>More</span>
+        </button>
+      </div>
+    </div>
+    <form action="" id="form" class="form">
+      <input
+        type="datetime-local"
+        id="meeting-time"
+        class="button"
+        name="meeting-time"
+        value=""
+      />
+      <input
+        type="text"
+        id="url-input"
+        class="textbox"
+        placeholder="Meeting Link"
+        value=""
+        autofocus
+      />
+      <div id="url-alert-div"></div>
+      <button type="submit" class="button">
+        <span id="submit-button">Set Meeting</span>
+      </button>
+    </form>
+    <div id="meetings-list" class="text-list"></div>
+
+    <script src="./js/format-google-calendar.min.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
