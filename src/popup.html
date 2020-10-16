@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Auto-Zoom</title>
+  </head>
+
+  <body>
+    <div id="root" class="grid-container">
+      <div class="header">
+        <div class="logo">AUTO ZOOM</div>
+        <div class="header-btns">
+          <div>
+            <button>GOOGLE</button>
+            <span>sync your calendar</span>
+          </div>
+          <div>
+            <button>ON/OFF</button>
+            <span>toggle all meetings</span>
+          </div>
+        </div>
+        <div class="nav">
+          <button>add new</button>
+          <button>full list</button>
+          <button>more</button>
+        </div>
+      </div>
+      <div class="input-box">
+        <input
+          type="datetime-local"
+          id="meeting-time"
+          class="input datetime"
+          name="meeting-time"
+          value=""
+        />
+        <input
+          type="text"
+          id="url-input"
+          class="input url"
+          placeholder="Meeting Link"
+          value=""
+          autofocus
+        />
+        <div class="url-alert">
+          <span id="url-alert-text" class="">valid zoom links only</span>
+        </div>
+        <button type="submit" class="button">
+          <span id="submit-button">Set Meeting</span>
+        </button>
+      </div>
+      <div class="list">
+        <div id="meetings-list"></div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<!-- <script src="./js/format-google-calendar.min.js"></script> -->
