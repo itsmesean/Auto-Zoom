@@ -1,62 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <link rel="stylesheet" href="styles.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Auto-Zoom</title>
   </head>
 
   <body>
-    <header class="header">
-      <h1>AUTO ZOOM</h1>
-
-      <div class="header-grid">
-        <div id="gAuth">
-          <button class="button" id="gButton">GOOGLE</button>
-          <p>Sync your calendar</p>
+    <div id="root" class="grid-container">
+      <div class="header">
+        <div class="logo">AUTO ZOOM</div>
+        <div class="header-btns">
+          <div>
+            <button>GOOGLE</button>
+            <span>sync your calendar</span>
+          </div>
+          <div>
+            <button>ON/OFF</button>
+            <span>toggle all meetings</span>
+          </div>
         </div>
-        <div id="toggle">
-          <button class="button" id="gButton">ON/OFF</button>
-          <p>Toggle all auto zooms</p>
+        <div class="nav">
+          <button>add new</button>
+          <button>full list</button>
+          <button>more</button>
         </div>
       </div>
-    </header>
-
-    <div class="tab-panel">
-      <div class="tab-panel__buttons">
-        <button class="button">
-          <span>Add new</span>
+      <div class="input-box">
+        <input
+          type="datetime-local"
+          id="meeting-time"
+          class="input datetime"
+          name="meeting-time"
+          value=""
+        />
+        <input
+          type="text"
+          id="url-input"
+          class="input url"
+          placeholder="Meeting Link"
+          value=""
+          autofocus
+        />
+        <div class="url-alert">
+          <span id="url-alert-text" class="">valid zoom links only</span>
+        </div>
+        <button type="submit" class="button">
+          <span id="submit-button">Set Meeting</span>
         </button>
-        <button class="button">
-          <span>Full list</span>
-        </button>
-        <button class="button">
-          <span>More</span>
-        </button>
+      </div>
+      <div class="list">
+        <div id="meetings-list"></div>
       </div>
     </div>
-    <form action="" id="form" class="form">
-      <input
-        type="datetime-local"
-        id="meeting-time"
-        class="button"
-        name="meeting-time"
-        value=""
-      />
-      <input
-        type="text"
-        id="url-input"
-        class="textbox"
-        placeholder="Meeting Link"
-        value=""
-        autofocus
-      />
-      <div id="url-alert-div"></div>
-      <button type="submit" class="button">
-        <span id="submit-button">Set Meeting</span>
-      </button>
-    </form>
-    <div id="meetings-list" class="text-list"></div>
-
-    <script src="./js/format-google-calendar.min.js"></script>
-    <script src="popup.js"></script>
   </body>
 </html>
+
+<!-- <script src="./js/format-google-calendar.min.js"></script> -->
