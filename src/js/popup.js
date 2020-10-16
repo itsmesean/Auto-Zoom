@@ -1,11 +1,11 @@
+import "../styles/popup.scss";
+
 const submitMeeting = function () {
   let meetingTime = document.querySelector('input[type="datetime-local"]');
   let meetingUrl = document.getElementById("url-input");
-  let urlFormatAlert = document.getElementById("url-alert");
-
-  urlFormatAlert ? urlFormatAlert.remove() : null;
 
   if (urlValidator(meetingUrl.value)) {
+    console.log("test");
     chrome.runtime.sendMessage(
       {
         cmd: "START_TIMER",
@@ -13,33 +13,34 @@ const submitMeeting = function () {
         link: meetingUrl.value,
       },
       function (response) {
+        console.log("test2");
         populate(response);
       }
     );
   } else {
-    document
-      .getElementById("url-alert-div")
-      .insertAdjacentHTML(
-        "afterbegin",
-        `<p class="url-alert">Please enter a valid Zoom link</p>`
-      );
+    document.querySelector("#url-alert-text").setAttribute("class", "flash");
+    setTimeout(() => {
+      document.querySelector("#url-alert-text").removeAttribute("class");
+    }, 1000);
   }
 };
 
 const populate = function (items) {
+  console.log("test3");
   document.getElementById("meetings-list").innerHTML = "";
-  for (meeting in items) {
+  console.log("test4");
+  console.log(items);
+  for (let meeting in items) {
     let _id = meeting;
     let date = new Date(meeting);
     let element = document.getElementById("meetings-list");
-
     element.insertAdjacentHTML(
       "afterbegin",
-      `<div id=${_id} class=" text-list__textbox">
+      `<div id=${_id} class="list-item">
       <span>${formatDate(date)}</span>
       <a target="_blank" href="${items[meeting]}">
       ${items[meeting].slice(8, -1)}</a>
-      <input type="image" id='remove-li' class="remove-li" src="../images/LogoMakr-1epUwy.png" />
+      <input type="image" id='remove-li' class="remove-li" src="/assets/LogoMakr-1epUwy.png" />
       </div>`
     );
   }
