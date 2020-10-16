@@ -70,7 +70,7 @@
     .flash {
       color: $background-color;
       animation-name: flash;
-      animation-duration: 0.15s;
+      animation-duration: 0.2s;
       animation-timing-function: linear;
       animation-iteration-count: infinite;
       animation-direction: alternate;
@@ -86,6 +86,7 @@
 .list {
   margin-top: 15px;
   grid-area: list;
+  width: 250px;
   #meetings-list {
     display: flex;
     flex-direction: column;
@@ -93,7 +94,8 @@
     overflow-y: auto;
     .list-item {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
+      width: 241px;
       font-size: 0.8rem;
       line-height: 1.5rem;
       overflow: hidden;
@@ -105,11 +107,19 @@
       border-top: 0.075rem solid #316e7d;
       border-bottom: 0.075rem solid #316e7d;
       min-height: 25px;
+      span {
+        width: 110px;
+      }
+      a {
+        font-size: 0.6rem;
+        color: $option-color;
+        width: 105px;
+      }
       .remove-li {
-        width: 17px;
-        height: 17px;
-        margin: 3px 3px 0 0;
+        width: 14px;
+        height: 14px;
         border: 0;
+        margin-top: 5px;
       }
     }
   }

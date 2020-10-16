@@ -21,7 +21,7 @@ const submitMeeting = function () {
     document.querySelector("#url-alert-text").setAttribute("class", "flash");
     setTimeout(() => {
       document.querySelector("#url-alert-text").removeAttribute("class");
-    }, 1000);
+    }, 1400);
   }
 };
 
