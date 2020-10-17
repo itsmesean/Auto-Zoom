@@ -13,7 +13,7 @@ body {
 #root {
   display: grid;
   grid-template-columns: 240px;
-  grid-template-rows: 125px 130px 225px;
+  grid-template-rows: 125px 130px 215px;
   gap: 0px 0px;
   grid-template-areas:
     "header"
@@ -53,9 +53,15 @@ input:focus {
   background-color: #193945;
   transition: background-color 125ms;
 }
-#meetings-list::-webkit-scrollbar {
-  width: 0.01rem;
+::-webkit-scrollbar {
+  background-color: #141e24;
+  width: 9px;
 }
+::-webkit-scrollbar-thumb {
+  border-left: 4px solid #141e24;
+  background-color: #316e7d;
+}
+
 input::placeholder {
   color: #316e7d;
 }

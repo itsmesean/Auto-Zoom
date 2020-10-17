@@ -1,41 +1,37 @@
 import "../styles/popup.scss";
 
 const submitMeeting = function () {
-  let meetingTime = document.querySelector('input[type="datetime-local"]');
-  let meetingUrl = document.getElementById("url-input");
+  let meetingTime = document.querySelector("#meeting-time").value;
+  let meetingUrl = document.querySelector("#url-input").value;
 
-  if (urlValidator(meetingUrl.value)) {
-    console.log("test");
+  if (urlValidator(meetingUrl)) {
     chrome.runtime.sendMessage(
       {
         cmd: "START_TIMER",
-        when: meetingTime.value,
-        link: meetingUrl.value,
+        when: meetingTime,
+        link: meetingUrl,
       },
-      function (response) {
-        console.log("test2");
-        populate(response);
-      }
+      (res) => getMeetings()
     );
   } else {
-    document.querySelector("#url-alert-text").setAttribute("class", "flash");
+    let alert = document.querySelector("#url-alert-text");
+    alert.setAttribute("class", "flash");
     setTimeout(() => {
-      document.querySelector("#url-alert-text").removeAttribute("class");
-    }, 1000);
+      alert.removeAttribute("class");
+    }, 1400);
   }
 };
 
 const populate = function (items) {
-  console.log("test3");
-  document.getElementById("meetings-list").innerHTML = "";
-  console.log("test4");
-  console.log(items);
+  let meetingsList = document.querySelector("#meetings-list");
+  meetingsList.innerHTML = "";
+
   for (let meeting in items) {
     let _id = meeting;
     let date = new Date(meeting);
-    let element = document.getElementById("meetings-list");
-    element.insertAdjacentHTML(
-      "afterbegin",
+
+    meetingsList.insertAdjacentHTML(
+      "beforeend",
       `<div id=${_id} class="list-item">
       <span>${formatDate(date)}</span>
       <a target="_blank" href="${items[meeting]}">
@@ -48,17 +44,15 @@ const populate = function (items) {
 
 const getMeetings = function () {
   chrome.runtime.sendMessage({ cmd: "GET_MEETINGS" }, function (response) {
-    populate(response);
+    const ordered = {};
+    Object.keys(response)
+      .sort()
+      .forEach(function (key) {
+        ordered[key] = response[key];
+      });
+    populate(ordered);
   });
 };
-/**
- * Function calls
- */
-
-// Set placeholder to current date/time
-toLocaleISOString();
-
-getMeetings();
 
 /**
  * Event Listeners
@@ -69,10 +63,9 @@ document.addEventListener("click", function (e) {
     e.preventDefault();
     chrome.runtime.sendMessage(
       { cmd: "REMOVE_ITEM", id: e.target.parentElement.id },
-      function (response) {
-        populate(response);
-      }
+      function (response) {}
     );
+    getMeetings();
   }
 });
 
@@ -125,3 +118,11 @@ const urlValidator = function (url) {
   let regex = /^https:\/\/zoom\.us\/j\/\d{5,}/gm;
   return regex.test(url);
 };
+
+/**
+ * Function calls
+ */
+
+// Set placeholder to current date/time
+toLocaleISOString();
+getMeetings();
