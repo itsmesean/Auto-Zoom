@@ -1,35 +1,36 @@
 import "../styles/popup.scss";
 
 const submitMeeting = function () {
-  let meetingTime = document.querySelector('input[type="datetime-local"]');
-  let meetingUrl = document.getElementById("url-input");
+  let meetingTime = document.querySelector("#meeting-time").value;
+  let meetingUrl = document.querySelector("#url-input").value;
 
-  if (urlValidator(meetingUrl.value)) {
-    console.log("test");
-    chrome.runtime.sendMessage({
-      cmd: "START_TIMER",
-      when: meetingTime.value,
-      link: meetingUrl.value,
-    });
-    getMeetings();
+  if (urlValidator(meetingUrl)) {
+    chrome.runtime.sendMessage(
+      {
+        cmd: "START_TIMER",
+        when: meetingTime,
+        link: meetingUrl,
+      },
+      (res) => getMeetings()
+    );
   } else {
-    document.querySelector("#url-alert-text").setAttribute("class", "flash");
+    let alert = document.querySelector("#url-alert-text");
+    alert.setAttribute("class", "flash");
     setTimeout(() => {
-      document.querySelector("#url-alert-text").removeAttribute("class");
+      alert.removeAttribute("class");
     }, 1400);
   }
 };
 
 const populate = function (items) {
-  console.log("test3");
-  document.getElementById("meetings-list").innerHTML = "";
-  console.log("test4");
-  console.log(items);
+  let meetingsList = document.querySelector("#meetings-list");
+  meetingsList.innerHTML = "";
+
   for (let meeting in items) {
     let _id = meeting;
     let date = new Date(meeting);
-    let element = document.getElementById("meetings-list");
-    element.insertAdjacentHTML(
+
+    meetingsList.insertAdjacentHTML(
       "beforeend",
       `<div id=${_id} class="list-item">
       <span>${formatDate(date)}</span>
@@ -52,14 +53,6 @@ const getMeetings = function () {
     populate(ordered);
   });
 };
-/**
- * Function calls
- */
-
-// Set placeholder to current date/time
-toLocaleISOString();
-
-getMeetings();
 
 /**
  * Event Listeners
@@ -70,10 +63,9 @@ document.addEventListener("click", function (e) {
     e.preventDefault();
     chrome.runtime.sendMessage(
       { cmd: "REMOVE_ITEM", id: e.target.parentElement.id },
-      function (response) {
-        getMeetings();
-      }
+      function (response) {}
     );
+    getMeetings();
   }
 });
 
@@ -126,3 +118,11 @@ const urlValidator = function (url) {
   let regex = /^https:\/\/zoom\.us\/j\/\d{5,}/gm;
   return regex.test(url);
 };
+
+/**
+ * Function calls
+ */
+
+// Set placeholder to current date/time
+toLocaleISOString();
+getMeetings();

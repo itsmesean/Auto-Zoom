@@ -13,5 +13,6 @@
     "128": "assets/icon-128.png"
   },
   "manifest_version": 2,
+  "permissions": ["storage", "alarms"],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

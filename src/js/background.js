@@ -1,14 +1,23 @@
 let meetings = {};
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log("bg");
   if (request.cmd === "START_TIMER") {
     let meetTime = Date.parse(request.when);
     let url = request.link;
-    meetings[request.when] = url;
 
+    // Set in local and sync
+    meetings[request.when] = url;
+    chrome.storage.sync.set({ meetings: meetings }, function () {
+      sendResponse(true);
+    });
+
+    // Start countdown timer
     setTimeout(() => {
       delete meetings[request.when];
+      chrome.storage.sync.set({ meetings: meetings }, function () {
+        sendResponse(true);
+      });
+
       chrome.tabs.create({ url: url, active: true }, (tab) => {
         setTimeout(function () {
           chrome.tabs.remove(tab.id);
@@ -18,10 +27,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
   if (request.cmd === "GET_MEETINGS") {
-    sendResponse(meetings);
+    chrome.storage.sync.get("meetings", function (items) {
+      sendResponse(items.meetings);
+    });
   }
 
   if (request.cmd === "REMOVE_ITEM") {
     delete meetings[request.id];
+    chrome.storage.sync.set({ meetings: meetings }, function () {
+      sendResponse(true);
+    });
   }
+  return true;
 });
