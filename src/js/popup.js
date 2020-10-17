@@ -45,12 +45,14 @@ const populate = function (items) {
 const getMeetings = function () {
   chrome.runtime.sendMessage({ cmd: "GET_MEETINGS" }, function (response) {
     const ordered = {};
-    Object.keys(response)
-      .sort()
-      .forEach(function (key) {
-        ordered[key] = response[key];
-      });
-    populate(ordered);
+    if (response !== null) {
+      Object.keys(response)
+        .sort()
+        .forEach(function (key) {
+          ordered[key] = response[key];
+        });
+      populate(ordered);
+    }
   });
 };
 
