@@ -15,7 +15,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }, 1500);
       });
     }, meetTime - Date.now());
-    sendResponse(meetings);
   }
 
   if (request.cmd === "GET_MEETINGS") {
@@ -24,6 +23,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   if (request.cmd === "REMOVE_ITEM") {
     delete meetings[request.id];
-    sendResponse(meetings);
   }
 });

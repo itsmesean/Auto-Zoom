@@ -6,17 +6,12 @@ const submitMeeting = function () {
 
   if (urlValidator(meetingUrl.value)) {
     console.log("test");
-    chrome.runtime.sendMessage(
-      {
-        cmd: "START_TIMER",
-        when: meetingTime.value,
-        link: meetingUrl.value,
-      },
-      function (response) {
-        console.log("test2");
-        populate(response);
-      }
-    );
+    chrome.runtime.sendMessage({
+      cmd: "START_TIMER",
+      when: meetingTime.value,
+      link: meetingUrl.value,
+    });
+    getMeetings();
   } else {
     document.querySelector("#url-alert-text").setAttribute("class", "flash");
     setTimeout(() => {
@@ -35,7 +30,7 @@ const populate = function (items) {
     let date = new Date(meeting);
     let element = document.getElementById("meetings-list");
     element.insertAdjacentHTML(
-      "afterbegin",
+      "beforeend",
       `<div id=${_id} class="list-item">
       <span>${formatDate(date)}</span>
       <a target="_blank" href="${items[meeting]}">
@@ -48,7 +43,13 @@ const populate = function (items) {
 
 const getMeetings = function () {
   chrome.runtime.sendMessage({ cmd: "GET_MEETINGS" }, function (response) {
-    populate(response);
+    const ordered = {};
+    Object.keys(response)
+      .sort()
+      .forEach(function (key) {
+        ordered[key] = response[key];
+      });
+    populate(ordered);
   });
 };
 /**
@@ -70,7 +71,7 @@ document.addEventListener("click", function (e) {
     chrome.runtime.sendMessage(
       { cmd: "REMOVE_ITEM", id: e.target.parentElement.id },
       function (response) {
-        populate(response);
+        getMeetings();
       }
     );
   }
