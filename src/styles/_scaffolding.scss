@@ -76,3 +76,11 @@ input::placeholder {
     color: black;
   }
 }
+@keyframes flash-added {
+  from {
+    border-color: white;
+  }
+  to {
+    border-color: black;
+  }
+}

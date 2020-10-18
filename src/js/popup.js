@@ -24,21 +24,29 @@ const submitMeeting = function () {
 
 const populate = function (items) {
   let meetingsList = document.querySelector("#meetings-list");
-  meetingsList.innerHTML = "";
 
   for (let meeting in items) {
-    let _id = meeting;
-    let date = new Date(meeting);
+    let meetingLi = document.getElementById(`${meeting}`);
 
-    meetingsList.insertAdjacentHTML(
-      "beforeend",
-      `<div id=${_id} class="list-item">
-      <span>${formatDate(date)}</span>
-      <a target="_blank" href="${items[meeting]}">
-      ${items[meeting].slice(8, -1)}</a>
-      <input type="image" id='remove-li' class="remove-li" src="/assets/LogoMakr-1epUwy.png" />
-      </div>`
-    );
+    if (!meetingLi) {
+      let _id = meeting;
+      let date = new Date(meeting);
+
+      meetingsList.insertAdjacentHTML(
+        "beforeend",
+        `<div id=${_id} class="list-item">
+        <span>${formatDate(date)}</span>
+        <a target="_blank" href="${items[meeting]}">
+        ${items[meeting].slice(8, -1)}</a>
+        <input type="image" id='remove-li' class="remove-li" src="/assets/LogoMakr-1epUwy.png" />
+        </div>`
+      );
+      let alert = document.getElementById(`${_id}`);
+      alert.classList.add("flash-added");
+      setTimeout(() => {
+        alert.classList.toggle("flash-added");
+      }, 500);
+    }
   }
 };
 
@@ -67,7 +75,8 @@ document.addEventListener("click", function (e) {
       { cmd: "REMOVE_ITEM", id: e.target.parentElement.id },
       function (response) {}
     );
-    getMeetings();
+    let removedLi = document.getElementById(`${e.target.parentElement.id}`);
+    removedLi.remove();
   }
 });
 

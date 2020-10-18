@@ -92,6 +92,14 @@
     flex-direction: column;
     height: 100%;
     overflow-y: auto;
+    .flash-added {
+      animation-name: flash-added;
+      animation-duration: 0.2s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      animation-play-state: running;
+    }
     .list-item {
       display: flex;
       justify-content: flex-start;
@@ -107,6 +115,7 @@
       border-top: 0.075rem solid #316e7d;
       border-bottom: 0.075rem solid #316e7d;
       min-height: 25px;
+
       span {
         width: 110px;
       }
