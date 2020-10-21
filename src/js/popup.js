@@ -34,6 +34,10 @@ const populate = function (items) {
       meetingsList.insertAdjacentHTML(
         "beforeend",
         `<div id=${_id} class="list-item ${items[meeting].new ? 'flash-added' : null}">
+        <label  class="checkbox">
+          <input id='checkbox' type="checkbox" ${items[meeting].checked ? 'checked' : null}/>
+          <span></span>
+        </label>
         <span>${formatDate(date)}</span>
         <a target="_blank" href="${items[meeting]}">
         ${items[meeting].slice(8, -1)}</a>
@@ -88,6 +92,14 @@ document.addEventListener("click", function (e) {
   }
 });
 
+document.addEventListener( 'change', function(e) {
+  if (e.target.id == "checkbox") {
+    chrome.runtime.sendMessage(
+      { cmd: "TOGGLE_ITEM", id: e.target.parentElement.parentElement.id, checked: e.target.checked },
+      function (response) {}
+    );
+  } 
+});
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if(request.cmd === 'REFRESH_LIST') {
     getMeetings();
