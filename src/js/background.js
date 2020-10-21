@@ -7,14 +7,18 @@ chrome.alarms.onAlarm.addListener(function (time) {
         chrome.tabs.remove(tab.id);
       }, 1500);
     });
+    chrome.alarms.clear(time.name);
+    delete meetings[time.name];
+    chrome.storage.sync.set({ meetings: meetings }, function () {});
+  } else {
+    chrome.alarms.clear(time.name);
+    delete meetings[time.name];
+    chrome.storage.sync.set({ meetings: meetings }, function () {});
+    chrome.runtime.sendMessage(
+      { cmd: "REFRESH_LIST" },
+      function (response) {}
+    );
   }
-  chrome.alarms.clear(time.name);
-  delete meetings[time.name];
-  chrome.storage.sync.set({ meetings: meetings }, function () {});
-  chrome.runtime.sendMessage(
-    { cmd: "REFRESH_LIST" },
-    function (response) {}
-  );
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
