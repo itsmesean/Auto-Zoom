@@ -24,17 +24,16 @@ const submitMeeting = function () {
 
 const populate = function (items) {
   let meetingsList = document.querySelector("#meetings-list");
+  meetingsList.innerHTML = ""
 
   for (let meeting in items) {
     let meetingLi = document.getElementById(`${meeting}`);
-
-    if (!meetingLi) {
       let _id = meeting;
       let date = new Date(meeting);
 
       meetingsList.insertAdjacentHTML(
         "beforeend",
-        `<div id=${_id} class="list-item">
+        `<div id=${_id} class="list-item ${items[meeting].new ? 'flash-added' : null}">
         <span>${formatDate(date)}</span>
         <a target="_blank" href="${items[meeting]}">
         ${items[meeting].slice(8, -1)}</a>
@@ -42,11 +41,13 @@ const populate = function (items) {
         </div>`
       );
       let alert = document.getElementById(`${_id}`);
-      alert.classList.add("flash-added");
       setTimeout(() => {
-        alert.classList.toggle("flash-added");
+        alert.classList.remove("flash-added");
+        chrome.runtime.sendMessage(
+          { cmd: "REMOVE_FLASH", id: _id},
+          function (response) {}
+        );
       }, 500);
-    }
   }
 };
 
@@ -84,6 +85,13 @@ document.addEventListener("click", function (e) {
   if (e.target && e.target.id == "submit-button") {
     e.preventDefault();
     submitMeeting();
+  }
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if(request.cmd === 'REFRESH_LIST') {
+    getMeetings();
+    sendResponse(true);
   }
 });
 

@@ -10,6 +10,10 @@ chrome.alarms.onAlarm.addListener(function (time) {
   chrome.alarms.clear(time.name);
   delete meetings[time.name];
   chrome.storage.sync.set({ meetings: meetings }, function () {});
+  chrome.runtime.sendMessage(
+    { cmd: "REFRESH_LIST" },
+    function (response) {}
+  );
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -36,6 +40,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.cmd === "REMOVE_ITEM") {
     delete meetings[request.id];
     chrome.alarms.clear(request.id);
+    chrome.storage.sync.set({ meetings: meetings }, function () {
+      sendResponse(true);
+    });
+  }
+  if (request.cmd === "REMOVE_FLASH") {
+    meetings[request.id].new = false
     chrome.storage.sync.set({ meetings: meetings }, function () {
       sendResponse(true);
     });

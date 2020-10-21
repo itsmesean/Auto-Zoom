@@ -1,7 +1,7 @@
 {
   "name": "auto-zoom",
   "version": "1.1.0",
-  "description": "Sensible webpack 5 boilerplate using Babel and PostCSS with a hot dev server and an optimized production build.",
+  "description": "Auto join zoom meetings at set time",
   "main": "background.js",
   "author": "Team Auto-Zoom",
   "license": "MIT",
