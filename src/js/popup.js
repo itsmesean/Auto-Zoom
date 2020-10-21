@@ -39,8 +39,7 @@ const populate = function (items) {
           <span></span>
         </label>
         <span>${formatDate(date)}</span>
-        <a target="_blank" href="${items[meeting]}">
-        ${items[meeting].slice(8, -1)}</a>
+        <a class="link" target="_blank" href="${items[meeting].url}"><img src="/assets/LogoMakr-4a7yZk.png"></a>
         <input type="image" id='remove-li' class="remove-li" src="/assets/LogoMakr-1epUwy.png" />
         </div>`
       );

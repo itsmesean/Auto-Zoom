@@ -115,20 +115,29 @@
       border-top: 0.075rem solid #316e7d;
       border-bottom: 0.075rem solid #316e7d;
       min-height: 25px;
-
-      span {
-        width: 110px;
+      label {
+        span{
+          width: 0
+        }
       }
-      a {
-        font-size: 0.65rem;
-        color: $option-color;
-        width: 105px;
+      span {
+        width: 175px;
+      }
+      .link {
+        display: flex;
+        margin-top: 5px;
+        img {
+          width: 14px;
+          height: 14px;
+          border: 0;
+        }
       }
       .remove-li {
         width: 14px;
         height: 14px;
         border: 0;
         margin-top: 5px;
+        margin-left: 5px;
       }
     }
   }
