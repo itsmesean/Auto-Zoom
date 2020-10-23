@@ -24,21 +24,33 @@ const submitMeeting = function () {
 
 const populate = function (items) {
   let meetingsList = document.querySelector("#meetings-list");
-  meetingsList.innerHTML = "";
+  meetingsList.innerHTML = ""
 
   for (let meeting in items) {
-    let _id = meeting;
-    let date = new Date(meeting);
+    let meetingLi = document.getElementById(`${meeting}`);
+      let _id = meeting;
+      let date = new Date(meeting);
 
-    meetingsList.insertAdjacentHTML(
-      "beforeend",
-      `<div id=${_id} class="list-item">
-      <span>${formatDate(date)}</span>
-      <a target="_blank" href="${items[meeting]}">
-      ${items[meeting].slice(8, -1)}</a>
-      <input type="image" id='remove-li' class="remove-li" src="/assets/LogoMakr-1epUwy.png" />
-      </div>`
-    );
+      meetingsList.insertAdjacentHTML(
+        "beforeend",
+        `<div id=${_id} class="list-item ${items[meeting].new ? 'flash-added' : null}">
+        <label  class="checkbox">
+          <input id='checkbox' type="checkbox" ${items[meeting].checked ? 'checked' : null}/>
+          <span></span>
+        </label>
+        <span>${formatDate(date)}</span>
+        <a class="link" target="_blank" href="${items[meeting].url}"><img src="/assets/LogoMakr-4a7yZk.png"></a>
+        <input type="image" id='remove-li' class="remove-li" src="/assets/LogoMakr-1epUwy.png" />
+        </div>`
+      );
+      let alert = document.getElementById(`${_id}`);
+      setTimeout(() => {
+        alert.classList.remove("flash-added");
+        chrome.runtime.sendMessage(
+          { cmd: "REMOVE_FLASH", id: _id},
+          function (response) {}
+        );
+      }, 500);
   }
 };
 
@@ -67,7 +79,8 @@ document.addEventListener("click", function (e) {
       { cmd: "REMOVE_ITEM", id: e.target.parentElement.id },
       function (response) {}
     );
-    getMeetings();
+    let removedLi = document.getElementById(`${e.target.parentElement.id}`);
+    removedLi.remove();
   }
 });
 
@@ -75,6 +88,21 @@ document.addEventListener("click", function (e) {
   if (e.target && e.target.id == "submit-button") {
     e.preventDefault();
     submitMeeting();
+  }
+});
+
+document.addEventListener( 'change', function(e) {
+  if (e.target.id == "checkbox") {
+    chrome.runtime.sendMessage(
+      { cmd: "TOGGLE_ITEM", id: e.target.parentElement.parentElement.id, checked: e.target.checked },
+      function (response) {}
+    );
+  } 
+});
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if(request.cmd === 'REFRESH_LIST') {
+    getMeetings();
+    sendResponse(true);
   }
 });
 
